@@ -10,7 +10,7 @@ This work leverages Machine Learning (ML) and counterfactual explanations to pre
 ## Materials & Methods
 
 ### Dataset Extraction
-Data was extracted from the Canadian Primary Care Sentinel Surveillance Network (CPCSSN). Features included were blood exams, glycemic biomarkers, general health indicators and presence of comorbidities.
+Data was extracted from the Canadian Primary Care Sentinel Surveillance Network (CPCSSN) using SQL queries. Features included were blood exams, glycemic biomarkers, general health indicators and presence of comorbidities.
 
 ### Dataset Characterization
 Univariate and bivariate analyses were conducted, including the Shapiro-Wilk test and Spearman’s correlation matrix. The separability of the target variable was assessed using boxplots and statistical tests.
@@ -29,7 +29,7 @@ Non-Gaussian distributions were observed for all features. Spearman’s correlat
 The similarity in feature ranges between PD and NG patients indicates the complexity of predicting PD. High correlation was found between some features, like FBS and HbA1c. LDL showed counter-intuitive decreases, likely due to medication.
 
 ### Model Performance
-The XGB model performed best on the total population and CurrentState=PD subgroup. For the CurrentState = NG subgroup, no model achieved satisfactory performance due to the imbalance of the dataset. Glycemic biomarkers, BMI, and LDL were identified as the most important features, as can be seen from the feature importance and PDP graphs.
+The XGB model performed best on the total population and CurrentState=PD subgroup. For the CurrentState = NG subgroup, no model achieved satisfactory performance due to the imbalance of the dataset. 
 
 | Population          | Model | F1Macro | Sensitivity | Specificity |
 |---------------------|-------|---------|-------------|-------------|
@@ -37,7 +37,9 @@ The XGB model performed best on the total population and CurrentState=PD subgrou
 | CurrentState = PD   | XGB   | 81%     | 76%         | 86%         |
 | CurrentState = NG   | DT    | 58%     | 13%         | 99%         |
 
-<p align="center"> FI PDP </p>
+Glycemic biomarkers, BMI, and LDL were identified as the most important features, as can be seen from the feature importance and PDP graphs.
+<p align="center"> <img align="center" src="./images/fi.png" width="500" /> <img align="center" src="./images/pdp.png" width="500" /></p>
+<p align="center"> From left to right: Feature importance and PDP computed on total population </p>
 
 ### Counterfactual Explainability
 Counterfactuals for transitions from PD to T2DM highlighted the importance of improving glycemic biomarkers and BMI to reduce T2DM risk. The random method generated fewer counterfactuals per record compared to the genetic method, which changed more features but produced fewer outliers.
@@ -49,7 +51,10 @@ Counterfactuals for transitions from PD to T2DM highlighted the importance of im
 | Features changed per CF  | 1.63 (0.49)       | 6.80 (0.78)        |
 | Outliers on all features | 49%               | 10%                |
 
-<p align="center"> SP </p>
+In the example below some examples of counterfactual explanations are reported for a 40-year-old female subject without comorbidities.
+
+<p align="center"> <img align="center" src="./images/sp.png" width="600" /></p>
+<p align="center"> Spiderplots showing counterfactual explanations </p>
 
 ## Conclusions
 This work contributes to understanding transitions between glycemic states using ML on primary care data, focusing on prediabetes for early intervention. Counterfactual explanations provide actionable insights for personalized prevention plans.
